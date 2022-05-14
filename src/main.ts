@@ -1,8 +1,31 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { json } from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const config = app.get(ConfigService);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
+  const appEnv = config.get('app');
+  const PORT = appEnv.port;
+  const limit = appEnv.limit;
+  const env = appEnv.env;
+
+  app.enableCors();
+  app.use(json({ limit: '1mb' }));
+
+  await app.listen(PORT);
+
+  Logger.log({
+    message: `Server ᕕ(ಠ‿ಠ)ᕗ on environment: ${env} and port: ${PORT}`,
+  });
 }
+
 bootstrap();

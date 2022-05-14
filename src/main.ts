@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { json } from 'body-parser';
+import { swaggerConfig } from 'src/common/services/swager.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,8 +19,10 @@ async function bootstrap() {
   const limit = appEnv.limit;
   const env = appEnv.env;
 
+  swaggerConfig(app, env);
+
   app.enableCors();
-  app.use(json({ limit: '1mb' }));
+  app.use(json({ limit }));
 
   await app.listen(PORT);
 

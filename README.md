@@ -22,17 +22,59 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) Framework usado para este challenge.
+[Challenge](https://xepelin.notion.site/Test-Backend-P-blico-f15bf9ee3bde4ef6964e181790dddd39) Challenge propuesto por xepelin notion.
 
-## Installation
+Con el fin de dar solución a la problematica planteada en el challenge se realiza la siguiente api. continuar...
+
+## Configuración de entorno
+
+Con el proposito de facilitar la ejecución de dicha API, se realizó un `Docker Compose` que permitirá de forma rápida crear todos los recursos necesario para su uso.
+### Ejecución de docker-compose
+```bash
+#build compose
+$ docker-compose build
+
+#run compose
+$ docker-compose up
+```
+
+### Accesos WEB para la prueba
+Una vez haya preparado todo el entorno de desarrollo, utilizando el `Docker Compose` anterior, puede hacer uso de los recurso web fueron configurados con el propisito de facilitar las prueba.
+
+#### PG Admin
+> Si desea acceder al [PG Admin](http://localhost:8081/login?next=%2F) para visualizar los datos de la base de datos usada durante el ejercicio puede acceder al servicio local proporcionado, usando los datos de prueba para el inicio de sesión que se brindan a continuación.
+```
+  USER: admin@admin.com
+  PASS: admin
+```
+> Una vez iniciada la sesión puede verificar si existe una conexión a la base de datos llamada `postgres`, de no existir, puede crear la nueva conexión usando los datos de prueba que se brindan a continuación.
+
+```
+HOST: postgres
+PORT: 5432
+DATABASE: postgres
+USER: postgres
+PASS: admin
+```
+
+#### Swagger Doc
+> Si desea utilizar la interfáz web de swagger para probar de forma mas sencilla la api presentada, puede utilizar [Swagger Vank Api](http://localhost:3001/doc/) en el que encontrará la documentación para el uso de cada endpoint, así como las referencias y ejemplos para los diferentes casos de uso.
+
+
+
+## Uso interno de la api
+
+Si desea utilizar esta API sin el `Docker Compose` facilitado entre los archivos del repositorio recuerde que puede correr la api utilizando los comandos de propios de node/nestjs. Sin embargo no contará con la conexión requerida hacia la base de datos utilizada para el ejercicio practico.
+### Instalar dependencias de node
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Correr la api
 
 ```bash
 # development
@@ -45,7 +87,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Ejecutar Test
 
 ```bash
 # unit tests
@@ -58,16 +100,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

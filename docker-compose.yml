@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:admin@postgres:5436/postgres
+      NODE_ENV: development
+      API_KEY: "4p1v4nkt35t"
+      JWT_TOKEN: "4piv4nkt35t"
+      ENVIRONMENT: "develop"
+      NODE_PORT: 3001
+      REQ_LIMIT: "1mb"
+      DB_HOST: 'localhost'
+      DB_PORT: 5436
+      DB_USER: 'postgres'
+      DB_PWD : 'admin'
+      DB_NAME: 'postgres'
+      DB_TYPE: 'postgres'
+    ports:
+      - "3001:3001"
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5436:5432"
+    environment:
+      DATABASE_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres

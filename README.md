@@ -64,10 +64,9 @@ PASS: admin
 > Si desea utilizar la interfáz web de swagger para probar de forma mas sencilla la api presentada, puede utilizar [Swagger Vank Api](http://localhost:3001/doc/) en el que encontrará la documentación para el uso de cada endpoint, así como las referencias y ejemplos para los diferentes casos de uso.
 
 
-
 ## Uso interno de la api
 
-Si desea utilizar esta API sin el `Docker Compose` facilitado entre los archivos del repositorio recuerde que puede correr la api utilizando los comandos de propios de node/nestjs. Sin embargo no contará con la conexión requerida hacia la base de datos utilizada para el ejercicio practico.
+Si desea utilizar esta API sin el `Docker Compose` facilitado entre los archivos del repositorio, recuerde que puede correr la api utilizando los comandos de propios de node/nestjs. Sin embargo no contará con la conexión requerida hacia la base de datos utilizada para el ejercicio practico.
 ### Instalar dependencias de node
 
 ```bash

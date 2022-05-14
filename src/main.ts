@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { json } from 'body-parser';
 import { swaggerConfig } from 'src/common/services/swager.service';
+import { Keys } from './common/enums/keys.enum';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  const appEnv = config.get('app');
+  const appEnv = config.get(Keys.APP);
   const PORT = appEnv.port;
   const limit = appEnv.limit;
   const env = appEnv.env;

@@ -5,7 +5,7 @@ import { UserCreateDto, UserUpdateDto } from '../dtos/user-input.dto';
 import { UserEntity } from '../entities/user.entity';
 import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { mapper } from '../mappers/user.mapper';
+import { mapperCreate, mapperUpdate } from '../mappers/user.mapper';
 import { encrypt } from 'src/common/utils/crypto';
 import ResourceNotFound from 'src/common/errors/resouce-not-found.error';
 
@@ -30,7 +30,7 @@ export class UserService {
     try {
       const hasPassword = await encrypt(body.password);
 
-      const user = await mapper(body, hasPassword);
+      const user = await mapperCreate(body, hasPassword);
 
       await manager.save(user);
 
@@ -50,11 +50,12 @@ export class UserService {
     body: UserUpdateDto,
   ): Promise<{ [key: string]: string }> {
     try {
-      if (!(await this.validateUser({ id }))) {
-        throw new ResourceNotFound('Usuario');
-      }
+      const user = await this.find({ id });
 
-      Logger.debug({ id, body });
+      mapperUpdate(user, body);
+
+      await this.repository.save(user);
+
       return { message: Messages.updatedSuccess };
     } catch (error) {
       throw error;
@@ -65,12 +66,16 @@ export class UserService {
     try {
       const users = await this.repository.findOne({ where: params });
 
+      if (!users) {
+        Logger.error(Messages.findNotFound + 'Users');
+        throw new ResourceNotFound('Users');
+      }
+
       Logger.debug(Messages.createdSuccess + 'Users');
+
       return users;
     } catch (error) {
-      Logger.error(Messages.findNotFound + 'Users');
-
-      throw new ResourceNotFound('Usuario');
+      throw error;
     }
   }
 

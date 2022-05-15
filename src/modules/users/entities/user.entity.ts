@@ -8,13 +8,13 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
+@Entity({ name: 'users' })
 export class UserEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'business_name', type: 'varchar', length: 80 })
-  businessName: string;
+  @Column({ name: 'company_name', type: 'varchar', length: 80 })
+  companyName: string;
 
   @Column({ type: 'varchar', length: 80 })
   email: string;

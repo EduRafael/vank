@@ -1,7 +1,7 @@
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 //const
-import { DocumentApi } from './../enums/api.enum';
+import { DocumentApi } from '../enums/api.enum';
 
 export const swaggerConfig = (app, env) => {
   const options = new DocumentBuilder()

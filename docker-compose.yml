@@ -33,7 +33,7 @@ services:
       API_KEY: "4p1v4nkt35t"
       JWT_TOKEN: "4piv4nkt35t"
       ENVIRONMENT: "develop"
-      NODE_PORT: 3001
+      NODE_PORT: 3000
       REQ_LIMIT: "1mb"
       DB_HOST: 'postgres'
       DB_PORT: 5432
@@ -42,4 +42,4 @@ services:
       DB_NAME: 'postgres'
       DB_TYPE: 'postgres'
     ports:
-      - "3001:3001"
+      - "3000:3000"

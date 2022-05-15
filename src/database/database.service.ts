@@ -8,7 +8,7 @@ export const dbProviders = [
     name: Keys.Postgres,
     imports: [ConfigModule],
     inject: [ConfigService],
-    async useFactory(config: ConfigService){
+    async useFactory(config: ConfigService) {
       return {
         //ssl: true,
         type: config.get(Keys.TYPE),
@@ -18,9 +18,7 @@ export const dbProviders = [
         password: config.get(Keys.PASSWORD),
         entities: [__dirname + '/../**/*.entity{.ts, .js}'],
         migrations: [__dirname + '/migrations/*{.ts, .js}'],
-      } as ConnectionOptions
-    }
+      } as ConnectionOptions;
+    },
   }),
 ];
-
-

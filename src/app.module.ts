@@ -9,6 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import config from './config/index.config';
 import { HealthCheckController } from './common/health/health-check.controller';
+import { AuthModule } from './common/auth/auth.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -26,6 +28,7 @@ import { HealthCheckController } from './common/health/health-check.controller';
     UsersModule,
     InvoicesModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

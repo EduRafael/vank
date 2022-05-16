@@ -13,4 +13,5 @@ export enum Keys {
   ENV = 'env',
   REQ_LIMIT = 'reqLimit',
   REMOTE_CSV = 'remoteCsv',
+  SECRET_KEY = 'secretKey',
 }

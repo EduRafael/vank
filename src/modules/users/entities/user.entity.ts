@@ -1,4 +1,8 @@
-import { Status, SupportedCurrencies } from 'src/common/enums/currencies.enum';
+import {
+  Status,
+  SupportedCurrencies,
+} from './../../../common/enums/currencies.enum';
+
 import {
   BaseEntity,
   Entity,
@@ -16,6 +20,12 @@ export class UserEntity {
 
   @Column({ name: 'company_name', type: 'varchar', length: 80 })
   companyName: string;
+
+  @Column({ type: 'varchar', length: 80 })
+  email: string;
+
+  @Column({ type: 'varchar', length: 80 })
+  password: string;
 
   @Column({ name: 'internal_code', type: 'varchar', length: 30 })
   internalCode: string;

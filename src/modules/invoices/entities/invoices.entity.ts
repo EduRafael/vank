@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { Expose } from 'class-transformer';
-import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 
 @Entity('invoices')
 export class InvoiceEntity {

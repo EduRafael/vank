@@ -6,7 +6,7 @@ import {
   IsEnum,
   IsNotEmpty,
 } from 'class-validator';
-import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 
 export class InvoiceCreateDto {
   @IsNumber()
@@ -61,4 +61,11 @@ export class InvoiceCreateDto {
   @IsEnum(SupportedCurrencies)
   @ApiProperty()
   currency: string;
+}
+
+//TODO: Lo modelo de esta forma para poder ver si puedo filtrar ademas por los bancos asociados a el usuario
+export interface InvoiceFilters {
+  vendorId?: number;
+  invoiceDate?: string;
+  userId?: number;
 }

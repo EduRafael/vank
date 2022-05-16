@@ -40,6 +40,7 @@ services:
       DB_PWD : 'admin'
       DB_NAME: 'postgres'
       DB_TYPE: 'postgres'
+      SECRET_KEY: 'phr453'
 
     ports:
       - "3000:3000"

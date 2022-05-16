@@ -1,12 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Messages } from 'src/common/enums/message.enum';
-import AlreadyExistsError from 'src/common/errors/order-already-exists.error';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Connection, Repository } from 'typeorm';
+
 import { UserCreateDto, UserUpdateDto } from '../dtos/user-input.dto';
 import { UserEntity } from '../entities/user.entity';
-import { Connection, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { mapperCreate, mapperUpdate } from '../mappers/user.mapper';
-import ResourceNotFound from 'src/common/errors/resouce-not-found.error';
+
+import { Messages } from './../../../common/enums/message.enum';
+import AlreadyExistsError from './../../../common/errors/already-exists.error';
+import ResourceNotFound from './../../../common/errors/resouce-not-found.error';
 
 @Injectable()
 export class UserService {
@@ -23,8 +25,8 @@ export class UserService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    if (await this.validateUser({ internalCode: body.internalCode })) {
-      throw new AlreadyExistsError('InternalCode', body.internalCode);
+    if (await this.validateUser({ email: body.email })) {
+      throw new AlreadyExistsError('Email', body.email);
     }
 
     try {

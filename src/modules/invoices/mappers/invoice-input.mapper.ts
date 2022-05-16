@@ -1,4 +1,4 @@
-import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
 import { InvoiceEntity } from '../entities/invoices.entity';
 

@@ -1,12 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsEnum, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsNotEmpty,
+  IsEmail,
+} from 'class-validator';
 
-import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 
 export class UserCreateDto {
   @IsString()
   @IsNotEmpty()
   companyName: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
   @IsString()
   @IsNotEmpty()

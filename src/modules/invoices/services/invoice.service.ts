@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Messages } from 'src/common/enums/message.enum';
-import AlreadyExistsError from 'src/common/errors/order-already-exists.error';
+import { Messages } from './../../../common/enums/message.enum';
+import AlreadyExistsError from './../../../common/errors/already-exists.error';
 import { Connection, Repository } from 'typeorm';
-import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
+import { InvoiceCreateDto, InvoiceFilters } from '../dtos/invoice-input.dto';
 import { InvoiceEntity } from '../entities/invoices.entity';
 import { mapperCreate } from '../mappers/invoice-input.mapper';
 
@@ -14,11 +14,6 @@ export class InvoiceService {
     private readonly repository: Repository<InvoiceEntity>,
     private readonly connection: Connection,
   ) {}
-
-  async getInvoices() {
-    Logger.log('Invoices to Users');
-    return 'Invoices to Users';
-  }
 
   async create(body: InvoiceCreateDto) {
     const queryRunner = this.connection.createQueryRunner();
@@ -44,6 +39,12 @@ export class InvoiceService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async findAll(params: InvoiceFilters) {
+    Logger.log('Invoices to Users');
+
+    return 'Invoices to Users';
   }
 
   private async validateInvoice(params): Promise<boolean> {

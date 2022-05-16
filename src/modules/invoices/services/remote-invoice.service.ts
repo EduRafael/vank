@@ -2,12 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
-import { Keys } from 'src/common/enums/keys.enum';
+import { Keys } from './../../../common/enums/keys.enum';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InvoiceEntity } from '../entities/invoices.entity';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Injectable()
 export class RemoteInvoice {

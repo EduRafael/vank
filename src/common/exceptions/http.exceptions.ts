@@ -9,7 +9,7 @@ import {
 
 import ConflictError from './../errors/conflict.error';
 import MapperError from './../errors/mapper.error';
-import AlreadyExistsError from './../errors/order-already-exists.error';
+import AlreadyExistsError from '../errors/already-exists.error';
 import ResourceNotFound from './../errors/resouce-not-found.error';
 import AuthError from '../errors/auth.error';
 
@@ -21,8 +21,7 @@ export class HttpErrorException implements ExceptionFilter {
     // const request = ctx.getRequest();
     const response = ctx.getResponse();
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message;
-    message = error.message;
+    let message = error.message;
 
     if (error instanceof ResourceNotFound) {
       statusCode = HttpStatus.NOT_FOUND;
@@ -45,10 +44,8 @@ export class HttpErrorException implements ExceptionFilter {
       statusCode = HttpStatus.BAD_REQUEST;
     }
 
-    const errorResponse = {
-      //timestamp: new Date().toLocaleTimeString(), //Remuevo por definición del MVP
-      message: message,
-    };
+    //timestamp: new Date().toLocaleTimeString(), //Remuevo por definición del MVP
+    const errorResponse = { message };
 
     this.logger.error(errorResponse.message);
 

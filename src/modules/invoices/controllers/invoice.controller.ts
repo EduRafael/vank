@@ -10,18 +10,19 @@ import {
   Logger,
   Query,
   Post,
+  applyDecorators,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { Messages } from 'src/common/enums/message.enum';
+import { Messages } from './../../../common/enums/message.enum';
 
 //service
 import { InvoiceService } from '../services/invoice.service';
-import { ApiInfo } from 'src/common/decorators/api-info.decorator';
-import { HttpErrorException } from 'src/common/exceptions/http.exceptions';
-import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
-import { DocControllers } from 'src/common/swagger/constants/invoice.constant';
+import { ApiInfo } from './../../../common/decorators/api-info.decorator';
+import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
+import { InvoiceCreateDto, InvoiceFilters } from '../dtos/invoice-input.dto';
+import { DocControllers } from './../../../common/swagger/constants/invoice.constant';
 
 @Controller('invoices')
 @ApiTags('Invoices')
@@ -37,16 +38,32 @@ export class InvoiceController {
   }
 
   @Get('/')
-  async find(@Query() query, @Res() res: Response) {}
+  @applyDecorators(
+    ApiQuery({ name: 'userId', example: '1', required: true }),
+    ApiQuery({ name: 'vendoId', example: '1', required: false }),
+    ApiQuery({ name: 'invoiceDate', example: '18-MAY-14', required: false }),
+  )
+  @UseFilters(HttpErrorException)
+  async find(@Query() query: InvoiceFilters, @Res() res: Response) {
+    this.logger.log(Messages.queryBegin);
+
+    const result = await this.service.findAll(query);
+
+    this.logger.log(Messages.queryEnding);
+
+    res.status(HttpStatus.CREATED).json(result);
+  }
 
   @Post('/new')
   @ApiInfo(DocControllers.created)
   @UseFilters(HttpErrorException)
   async create(@Body() body: InvoiceCreateDto, @Res() res: Response) {
     this.logger.log(Messages.creationBegin);
+
     const result = await this.service.create(body);
 
     this.logger.log(Messages.creationEnding);
+
     res.status(HttpStatus.CREATED).json(result);
   }
 }

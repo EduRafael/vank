@@ -10,6 +10,7 @@ export default () => ({
   namingStrategy: new SnakeNamingStrategy(),
   apiKey: process.env.API_KEY,
   remoteCsv: process.env.REMOTE_CSV,
+  secretKey: process.env.SECRET_KEY,
   app: {
     env: process.env.ENVIRONMENT,
     port: process.env.NODE_PORT,

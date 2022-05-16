@@ -16,11 +16,11 @@ import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
 //service
 import { UserService } from '../services/user.service';
-import { HttpErrorException } from 'src/common/exceptions/http.exceptions';
+import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
 
-import { Messages } from 'src/common/enums/message.enum';
-import { ApiInfo } from 'src/common/decorators/api-info.decorator';
-import { DocControllers } from 'src/common/swagger/constants/user.constant';
+import { Messages } from './../../../common/enums/message.enum';
+import { ApiInfo } from './../../../common/decorators/api-info.decorator';
+import { DocControllers } from './../../../common/swagger/constants/user.constant';
 import { UserCreateDto, UserUpdateDto } from '../dtos/user-input.dto';
 import { UserEntity } from '../entities/user.entity';
 

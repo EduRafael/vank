@@ -1,13 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsNumber, IsEnum, IsNotEmpty } from 'class-validator';
 
-import {
-  IsString,
-  IsNumber,
-  IsEnum,
-  IsPositive,
-  IsNotEmpty,
-  IsArray,
-} from 'class-validator';
 import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
 
 export class UserCreateDto {

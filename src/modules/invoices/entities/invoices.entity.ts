@@ -8,8 +8,9 @@ import {
 } from 'typeorm';
 
 import { Expose } from 'class-transformer';
+import { SupportedCurrencies } from 'src/common/enums/currencies.enum';
 
-@Entity()
+@Entity('invoices')
 export class InvoiceEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -49,8 +50,12 @@ export class InvoiceEntity {
   @Column({ name: 'payment_date', type: 'date', nullable: true })
   paymentDate: string;
 
-  @Column({ type: 'varchar', length: 10 })
-  currency: string;
+  @Column({
+    type: 'enum',
+    enum: SupportedCurrencies,
+    default: SupportedCurrencies.usd,
+  })
+  currency: SupportedCurrencies;
 
   @CreateDateColumn({
     name: 'created_at',

@@ -28,10 +28,9 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:admin@postgres:5436/postgres
+      REMOTE_CSV: "https://gist.github.com/rogelio-meza-t/f70a484ec20b8ea43c67f95a58597c29"
       NODE_ENV: development
       API_KEY: "4p1v4nkt35t"
-      JWT_TOKEN: "4piv4nkt35t"
       ENVIRONMENT: "develop"
       NODE_PORT: 3000
       REQ_LIMIT: "1mb"
@@ -41,5 +40,6 @@ services:
       DB_PWD : 'admin'
       DB_NAME: 'postgres'
       DB_TYPE: 'postgres'
+
     ports:
       - "3000:3000"

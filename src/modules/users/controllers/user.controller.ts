@@ -27,16 +27,17 @@ import { UserEntity } from '../entities/user.entity';
 @Controller('users')
 @ApiTags('Users')
 export class UserController {
+  private readonly logger = new Logger(UserController.name);
   constructor(private service: UserService) {}
 
   @Post('/new')
   @ApiInfo(DocControllers.created)
   @UseFilters(HttpErrorException)
   async create(@Body() body: UserCreateDto, @Res() res: Response) {
-    Logger.debug(Messages.creationBegin);
+    this.logger.log(Messages.creationBegin);
     const result = await this.service.create(body);
 
-    Logger.debug(Messages.creationEnding);
+    this.logger.log(Messages.creationEnding);
     res.status(HttpStatus.CREATED).json(result);
   }
 
@@ -48,17 +49,17 @@ export class UserController {
     @Body() body: UserUpdateDto,
     @Res() res: Response,
   ) {
-    Logger.debug(Messages.updateBegin);
+    this.logger.log(Messages.updateBegin);
     const result = await this.service.update(userId, body);
 
-    Logger.debug(Messages.UpdateEnding);
+    this.logger.log(Messages.UpdateEnding);
     res.status(HttpStatus.CREATED).json(result);
   }
 
   @Get('/health')
   @ApiInfo(DocControllers.health)
   async health(@Res() res: Response) {
-    Logger.debug(Messages.health);
+    this.logger.log(Messages.health);
     res.status(HttpStatus.OK).json({ message: Messages.health });
   }
 }

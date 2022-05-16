@@ -6,11 +6,11 @@ import { UserEntity } from '../entities/user.entity';
 import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { mapperCreate, mapperUpdate } from '../mappers/user.mapper';
-import { encrypt } from 'src/common/utils/crypto';
 import ResourceNotFound from 'src/common/errors/resouce-not-found.error';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
@@ -23,14 +23,12 @@ export class UserService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    if (await this.validateUser({ email: body.email })) {
-      throw new AlreadyExistsError('Email', body.email);
+    if (await this.validateUser({ internalCode: body.internalCode })) {
+      throw new AlreadyExistsError('InternalCode', body.internalCode);
     }
 
     try {
-      const hasPassword = await encrypt(body.password);
-
-      const user = await mapperCreate(body, hasPassword);
+      const user = await mapperCreate(body);
 
       await manager.save(user);
 
@@ -67,11 +65,11 @@ export class UserService {
       const users = await this.repository.findOne({ where: params });
 
       if (!users) {
-        Logger.error(Messages.findNotFound + 'Users');
+        this.logger.error(Messages.findNotFound + 'Users');
         throw new ResourceNotFound('Users');
       }
 
-      Logger.debug(Messages.createdSuccess + 'Users');
+      this.logger.debug(Messages.createdSuccess + 'Users');
 
       return users;
     } catch (error) {

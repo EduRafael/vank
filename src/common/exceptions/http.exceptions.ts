@@ -15,6 +15,7 @@ import AuthError from '../errors/auth.error';
 
 @Catch()
 export class HttpErrorException implements ExceptionFilter {
+  private readonly logger = new Logger(HttpErrorException.name);
   catch(error: Error | HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     // const request = ctx.getRequest();
@@ -49,7 +50,7 @@ export class HttpErrorException implements ExceptionFilter {
       message: message,
     };
 
-    Logger.error(errorResponse);
+    this.logger.error(errorResponse.message);
 
     response.status(statusCode).json(errorResponse);
   }

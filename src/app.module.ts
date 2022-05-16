@@ -7,7 +7,6 @@ import { getConnectionOptions } from 'typeorm';
 //config
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { AuthModule } from './common/auth/auth.module';
 import config from './config/index.config';
 import { HealthCheckController } from './common/health/health-check.controller';
 @Module({
@@ -27,7 +26,6 @@ import { HealthCheckController } from './common/health/health-check.controller';
     UsersModule,
     InvoicesModule,
     DatabaseModule,
-    AuthModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

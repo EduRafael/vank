@@ -9,7 +9,7 @@ export default () => ({
   type: process.env.DB_TYPE,
   namingStrategy: new SnakeNamingStrategy(),
   apiKey: process.env.API_KEY,
-  jwtSecret: process.env.JWT_SECRET,
+  remoteCsv: process.env.REMOTE_CSV,
   app: {
     env: process.env.ENVIRONMENT,
     port: process.env.NODE_PORT,

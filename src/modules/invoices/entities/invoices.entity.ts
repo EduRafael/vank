@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 import { Expose } from 'class-transformer';
@@ -18,12 +19,14 @@ export class InvoiceEntity {
   @Column({ name: 'invoice_id', type: 'int', default: 0 })
   invoiceId: number;
 
+  @Index()
   @Column({ name: 'vendor_id', type: 'int' })
   vendorId: number;
 
   @Column({ name: 'invoice_number', type: 'varchar', length: 255 })
   invoiceNumber: string;
 
+  @Index()
   @Column({ name: 'invoice_date', type: 'date', nullable: true })
   invoiceDate: string;
 

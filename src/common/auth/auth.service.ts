@@ -23,6 +23,7 @@ export class AuthService {
       const allow = await compare(password, user.password);
 
       if (!allow) throw Error();
+      console.log({ user });
 
       const payload: AuthType = {
         userId: user.id,
@@ -36,6 +37,7 @@ export class AuthService {
       return {
         userId: user.id,
         bank: JSON.parse(user.bankAccess),
+        currency: user.currency,
         token,
       };
     } catch (error) {
@@ -44,7 +46,12 @@ export class AuthService {
     }
   }
 
-  private generateJwtToken(params) {
+  decodeToken(authorization: string): AuthType {
+    const token = authorization.replace('Bearer ', '');
+    return this.jwtService.decode(token) as AuthType;
+  }
+
+  private generateJwtToken(params: AuthType) {
     return this.jwtService.sign(params);
   }
 }

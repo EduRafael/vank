@@ -34,7 +34,7 @@ services:
     environment:
       REMOTE_CSV: "https://gist.github.com/rogelio-meza-t/f70a484ec20b8ea43c67f95a58597c29"
       NODE_ENV: development
-      API_KEY: "4p1v4nkt35t"
+      API_KEY: "4eb3f5da2b79a043787e"
       ENVIRONMENT: "develop"
       NODE_PORT: 3000
       REQ_LIMIT: "1mb"
@@ -46,5 +46,6 @@ services:
       DB_TYPE: 'postgres'
       SECRET_KEY: 'phr453'
       EXPIRED_TOKEN: '2h'
+      URL_CONVERTER: 'https://free.currconv.com/api/v7/convert'
     ports:
       - "3000:3000"

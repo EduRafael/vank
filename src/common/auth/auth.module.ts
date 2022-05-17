@@ -22,9 +22,13 @@ import { JwtStrategy } from './strategies/auth-jwt.strategy';
         };
       },
     }),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
     UsersModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuhtController],
+  exports: [AuthService],
 })
 export class AuthModule {}

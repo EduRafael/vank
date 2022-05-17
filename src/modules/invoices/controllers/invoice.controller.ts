@@ -3,8 +3,6 @@ import {
   HttpStatus,
   Controller,
   Body,
-  Param,
-  Patch,
   UseFilters,
   Get,
   Logger,
@@ -12,8 +10,9 @@ import {
   Post,
   applyDecorators,
   UseGuards,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { Messages } from './../../../common/enums/message.enum';
@@ -22,9 +21,12 @@ import { Messages } from './../../../common/enums/message.enum';
 import { InvoiceService } from '../services/invoice.service';
 import { ApiInfo } from './../../../common/decorators/api-info.decorator';
 import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
-import { InvoiceCreateDto, InvoiceFilters } from '../dtos/invoice-input.dto';
+import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
+
 import { DocControllers } from './../../../common/swagger/constants/invoice.constant';
 import { JwtGuard } from 'common/auth/strategies/auth-jwt.guard';
+import { SupportedCurrencies } from 'common/enums/currencies.enum';
+import { InvoiceFilters } from '../models/invoices.model';
 
 @Controller('invoices')
 @ApiTags('Invoices')
@@ -43,19 +45,27 @@ export class InvoiceController {
   @ApiBearerAuth()
   @Get('/')
   @applyDecorators(
-    ApiQuery({ name: 'userId', example: '1', required: true }),
-    ApiQuery({ name: 'vendoId', example: '1', required: false }),
+    ApiQuery({ name: 'vendorId', example: '1', required: false }),
     ApiQuery({ name: 'invoiceDate', example: '18-MAY-14', required: false }),
+    ApiQuery({
+      name: 'currency',
+      required: false,
+      enum: SupportedCurrencies,
+    }),
   )
   @UseFilters(HttpErrorException)
-  async find(@Query() query: InvoiceFilters, @Res() res: Response) {
+  async find(
+    @Req() req: Request,
+    @Query() query: InvoiceFilters,
+    @Res() res: Response,
+  ) {
     this.logger.log(Messages.queryBegin);
 
-    const result = await this.service.findAll(query);
+    const result = await this.service.findAll(query, req.headers);
 
     this.logger.log(Messages.queryEnding);
 
-    res.status(HttpStatus.CREATED).json(result);
+    res.status(HttpStatus.OK).json(result);
   }
 
   @UseGuards(JwtGuard)

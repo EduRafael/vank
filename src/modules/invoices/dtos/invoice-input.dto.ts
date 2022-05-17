@@ -65,10 +65,3 @@ export class InvoiceCreateDto {
   })
   currency: string;
 }
-
-//TODO: Lo modelo de esta forma para poder ver si puedo filtrar ademas por los bancos asociados a el usuario
-export interface InvoiceFilters {
-  vendorId?: number;
-  invoiceDate?: string;
-  userId?: number;
-}

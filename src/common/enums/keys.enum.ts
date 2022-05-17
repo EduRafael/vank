@@ -15,4 +15,5 @@ export enum Keys {
   REMOTE_CSV = 'remoteCsv',
   SECRET_KEY = 'secretKey',
   EXPIRED_TOKEN = 'expiredToken',
+  URL_CURR = 'urlConverter',
 }

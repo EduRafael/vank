@@ -9,6 +9,7 @@ export default () => ({
   remoteCsv: process.env.REMOTE_CSV,
   secretKey: process.env.SECRET_KEY,
   expiredToken: process.env.EXPIRED_TOKEN,
+  urlConverter: process.env.URL_CONVERTER,
   app: {
     env: process.env.ENVIRONMENT,
     port: process.env.NODE_PORT,

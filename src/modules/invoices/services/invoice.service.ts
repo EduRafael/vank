@@ -9,11 +9,13 @@ import { mapperCreate } from '../mappers/invoice-input.mapper';
 import { AuthService } from 'common/auth/auth.service';
 import { verify } from 'crypto';
 import { Converter, InvoiceFilters } from '../models/invoices.model';
-import { invoiceOutputMapper } from '../mappers/invoice-output.mapper';
+import { InvoiceOutput } from '../mappers/invoice-output.mapper';
 import { ConfigService } from '@nestjs/config';
 import { Keys } from 'common/enums/keys.enum';
 import { HttpService } from '@nestjs/axios';
 import axios from 'axios';
+import { checkRate } from 'common/utils/convert-currency.utils';
+import { SupportedCurrencies } from 'common/enums/currencies.enum';
 
 @Injectable()
 export class InvoiceService {
@@ -23,8 +25,6 @@ export class InvoiceService {
     private readonly repository: Repository<InvoiceEntity>,
     private readonly connection: Connection,
     private readonly authService: AuthService,
-    private readonly config: ConfigService,
-    private readonly httpService: HttpService,
   ) {}
 
   async create(body: InvoiceCreateDto) {
@@ -69,18 +69,22 @@ export class InvoiceService {
       });
 
       if (invoices.length < 1) {
-        this.logger.log(
-          'No se encontraron registros para con los filtros seleccionados',
-        );
+        this.logger.log(Messages.filtersNotResult);
         return {
-          message:
-            'No se encontraron registros para con los filtros seleccionados',
+          message: Messages.filtersNotResult,
         };
       }
 
-      const converter = await this.checkRate(currency || user?.currency);
+      const converter = currency || user?.currency;
+      const clp = await checkRate(SupportedCurrencies.clp);
+      const usd = await checkRate(SupportedCurrencies.usd);
+      const eur = await checkRate(SupportedCurrencies.eur);
 
-      return invoiceOutputMapper(invoices, converter);
+      console.log({ clp, usd, eur });
+
+      const invoiceOutput = new InvoiceOutput(invoices, { clp, usd, eur });
+
+      return invoiceOutput.mapper(converter);
     } catch (error) {
       console.log(error.message);
       throw error;
@@ -91,20 +95,5 @@ export class InvoiceService {
     const invoice = await this.repository.findOne(params);
 
     return (invoice && true) || false;
-  }
-
-  private async checkRate(currency): Promise<Converter> {
-    const coin = `${currency}_PHP`;
-    const baseUrl = this.config.get(Keys.URL_CURR);
-    const apiKey = this.config.get(Keys.API_KEY);
-
-    let url = `${baseUrl}?q=${coin}&compact=ultra&apiKey=${apiKey}`;
-
-    const result = await axios.get(url);
-
-    return {
-      currency,
-      rate: result.data.coin,
-    };
   }
 }

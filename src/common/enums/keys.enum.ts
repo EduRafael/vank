@@ -16,4 +16,5 @@ export enum Keys {
   SECRET_KEY = 'secretKey',
   EXPIRED_TOKEN = 'expiredToken',
   URL_CURR = 'urlConverter',
+  CRON_EXP = 'cronExp',
 }

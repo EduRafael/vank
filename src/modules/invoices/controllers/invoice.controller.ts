@@ -35,12 +35,6 @@ export class InvoiceController {
 
   constructor(private service: InvoiceService) {}
 
-  @Get('/health')
-  async health(@Res() res: Response) {
-    Logger.debug(Messages.health);
-    res.status(HttpStatus.OK).json({ message: Messages.health });
-  }
-
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
   @Get('/')
@@ -81,5 +75,11 @@ export class InvoiceController {
     this.logger.log(Messages.creationEnding);
 
     res.status(HttpStatus.CREATED).json(result);
+  }
+
+  @Get('/health')
+  async health(@Res() res: Response) {
+    Logger.debug(Messages.health);
+    res.status(HttpStatus.OK).json({ message: Messages.health });
   }
 }

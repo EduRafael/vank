@@ -23,7 +23,6 @@ export class AuthService {
       const allow = await compare(password, user.password);
 
       if (!allow) throw Error();
-      console.log({ user });
 
       const payload: AuthType = {
         userId: user.id,

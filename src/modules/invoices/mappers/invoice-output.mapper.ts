@@ -1,58 +1,116 @@
+import { Logger } from '@nestjs/common';
 import { SupportedCurrencies } from 'common/enums/currencies.enum';
 import { InvoiceEntity } from '../entities/invoices.entity';
-import { Converter } from '../models/invoices.model';
+import { Coins, Converter } from '../models/invoices.model';
 
-export const invoiceOutputMapper = (
-  invoices: InvoiceEntity[],
-  converter: Converter,
-) => {
-  const result = invoices.map((invoice) => {
-    // if (invoice.currency !== converter.currency) {
-    //   return converterCurrency(converter, invoice);
-    // }
-    const { id, currency, createdAt, updatedAt, ...rest } = invoice;
-    return rest;
-  });
-  return result;
-};
+export class InvoiceOutput {
+  private readonly logger = new Logger(InvoiceOutput.name);
 
-const converterCurrency = (converter: Converter, invoice: InvoiceEntity) => {
-  const { currency, invoiceTotal, paymentTotal, creditTotal } = invoice;
+  private readonly usd: number;
+  private clp: number;
+  private eur: number;
 
-  if (
-    converter.currency == SupportedCurrencies.clp &&
-    currency == SupportedCurrencies.eur
-  ) {
+  constructor(private invoices: InvoiceEntity[], coins: Coins) {
+    this.clp = coins.clp;
+    this.usd = coins.usd;
+    this.eur = coins.eur;
   }
 
-  if (
-    converter.currency == SupportedCurrencies.clp &&
-    currency == SupportedCurrencies.usd
-  ) {
+  //TODO: Esta funcionalidad debería ser mejorada. (Dejo pendiente hasta tener mas tiempo)
+  mapper(converter) {
+    const result = this.invoices.map((invoice) => {
+      const {
+        id,
+        currency,
+        createdAt,
+        updatedAt,
+        creditTotal,
+        paymentTotal,
+        invoiceTotal,
+        ...rest
+      } = invoice;
+
+      if (invoice.currency === converter) {
+        return {
+          ...rest,
+          paymentTotal: Number(paymentTotal),
+          invoiceTotal: Number(invoiceTotal),
+          creditTotal: Number(creditTotal),
+        };
+      }
+
+      const coinToConvert = this.coinConvert(converter);
+
+      const method = this.transform[`${currency}-${converter}`]();
+
+      const creditTransform = method(
+        Number(creditTotal),
+        Number(coinToConvert),
+      );
+      const paymentTransform = method(
+        Number(paymentTotal),
+        Number(coinToConvert),
+      );
+      const invoiceTransform = method(
+        Number(invoiceTotal),
+        Number(coinToConvert),
+      );
+
+      return {
+        ...rest,
+        creditTotal: creditTransform,
+        paymentTotal: paymentTransform,
+        invoiceTotal: invoiceTransform,
+      };
+    });
+
+    return result;
   }
 
-  if (
-    converter.currency == SupportedCurrencies.usd &&
-    currency == SupportedCurrencies.eur
-  ) {
+  private coinConvert(coin) {
+    return {
+      [SupportedCurrencies.eur]: this.eur,
+      [SupportedCurrencies.usd]: this.usd,
+      [SupportedCurrencies.clp]: this.clp,
+    }[coin];
   }
 
-  if (
-    converter.currency == SupportedCurrencies.usd &&
-    currency == SupportedCurrencies.clp
-  ) {
+  transform = {
+    [`${SupportedCurrencies.clp}-${SupportedCurrencies.eur}`]: () =>
+      this.convertCoinToCurrency,
+    [`${SupportedCurrencies.clp}-${SupportedCurrencies.usd}`]: () =>
+      this.convertCoinToCurrency,
+    [`${SupportedCurrencies.eur}-${SupportedCurrencies.clp}`]: () =>
+      this.convertCoinToCurrency,
+    [`${SupportedCurrencies.usd}-${SupportedCurrencies.clp}`]: () =>
+      this.convertCoinToCurrency,
+    [`${SupportedCurrencies.usd}-${SupportedCurrencies.eur}`]: () =>
+      this.convertUsdToEur,
+    [`${SupportedCurrencies.eur}-${SupportedCurrencies.usd}`]: () =>
+      this.convertEurToUsd,
+  };
+
+  private convertUsdToEur(coin, eur) {
+    try {
+      return (coin * eur) / this.usd;
+    } catch (error) {
+      return coin;
+    }
   }
 
-  if (
-    converter.currency == SupportedCurrencies.eur &&
-    currency == SupportedCurrencies.usd
-  ) {
+  private convertEurToUsd(coin, usd) {
+    try {
+      return (coin * usd) / this.eur;
+    } catch (error) {
+      return coin;
+    }
   }
 
-  if (
-    converter.currency == SupportedCurrencies.eur &&
-    currency == SupportedCurrencies.clp
-  ) {
+  private convertCoinToCurrency(coin, currency) {
+    try {
+      return coin / currency;
+    } catch (error) {
+      return coin;
+    }
   }
-  return {};
-};
+}

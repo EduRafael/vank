@@ -9,3 +9,9 @@ export interface Converter {
   rate?: number;
   currency?: string;
 }
+
+export interface Coins {
+  clp: number;
+  usd: number;
+  eur: number;
+}

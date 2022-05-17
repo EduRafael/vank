@@ -12,4 +12,5 @@ export enum Messages {
   findNotFound = 'No search results found for:',
   queryBegin = 'Querying Begin',
   queryEnding = 'Querying Ending',
+  filtersNotResult = 'No records found for selected filters',
 }

@@ -11,9 +11,10 @@ import {
   Query,
   Post,
   applyDecorators,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { Messages } from './../../../common/enums/message.enum';
 
@@ -23,6 +24,7 @@ import { ApiInfo } from './../../../common/decorators/api-info.decorator';
 import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
 import { InvoiceCreateDto, InvoiceFilters } from '../dtos/invoice-input.dto';
 import { DocControllers } from './../../../common/swagger/constants/invoice.constant';
+import { JwtGuard } from 'common/auth/strategies/auth-jwt.guard';
 
 @Controller('invoices')
 @ApiTags('Invoices')
@@ -37,6 +39,8 @@ export class InvoiceController {
     res.status(HttpStatus.OK).json({ message: Messages.health });
   }
 
+  @UseGuards(JwtGuard)
+  @ApiBearerAuth()
   @Get('/')
   @applyDecorators(
     ApiQuery({ name: 'userId', example: '1', required: true }),
@@ -54,6 +58,8 @@ export class InvoiceController {
     res.status(HttpStatus.CREATED).json(result);
   }
 
+  @UseGuards(JwtGuard)
+  @ApiBearerAuth()
   @Post('/new')
   @ApiInfo(DocControllers.created)
   @UseFilters(HttpErrorException)

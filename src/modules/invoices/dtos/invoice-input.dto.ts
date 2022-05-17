@@ -59,7 +59,10 @@ export class InvoiceCreateDto {
   paymentDate: string;
 
   @IsEnum(SupportedCurrencies)
-  @ApiProperty()
+  @ApiProperty({
+    example: 'USD/EUR/CLP',
+    enum: SupportedCurrencies,
+  })
   currency: string;
 }
 

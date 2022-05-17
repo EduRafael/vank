@@ -1,5 +1,9 @@
 version: "3.9"
 services:
+  # redis_db:
+  #       image: "redis:alpine"
+  #       ports:
+  #           - "6380:6379"
   postgres:
     image: postgres
     restart: always
@@ -41,6 +45,6 @@ services:
       DB_NAME: 'postgres'
       DB_TYPE: 'postgres'
       SECRET_KEY: 'phr453'
-
+      EXPIRED_TOKEN: '2h'
     ports:
       - "3000:3000"

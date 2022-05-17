@@ -44,6 +44,11 @@ export class HttpErrorException implements ExceptionFilter {
       statusCode = HttpStatus.BAD_REQUEST;
     }
 
+    if (error.message == 'Unauthorized') {
+      message = 'No tiene permiso para ejecutar esta acción';
+      statusCode = HttpStatus.FORBIDDEN;
+    }
+
     //timestamp: new Date().toLocaleTimeString(), //Remuevo por definición del MVP
     const errorResponse = { message };
 

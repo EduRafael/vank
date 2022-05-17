@@ -1,5 +1,3 @@
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-
 export default () => ({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -7,10 +5,10 @@ export default () => ({
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   type: process.env.DB_TYPE,
-  namingStrategy: new SnakeNamingStrategy(),
   apiKey: process.env.API_KEY,
   remoteCsv: process.env.REMOTE_CSV,
   secretKey: process.env.SECRET_KEY,
+  expiredToken: process.env.EXPIRED_TOKEN,
   app: {
     env: process.env.ENVIRONMENT,
     port: process.env.NODE_PORT,

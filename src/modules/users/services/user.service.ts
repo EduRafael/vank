@@ -71,7 +71,7 @@ export class UserService {
         throw new ResourceNotFound('Users');
       }
 
-      this.logger.debug(Messages.createdSuccess + 'Users');
+      this.logger.debug(Messages.findSuccess + ' Users');
 
       return users;
     } catch (error) {

@@ -5,6 +5,7 @@ import { DocumentApi } from '../enums/api.enum';
 
 export const swaggerConfig = (app, env) => {
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle(DocumentApi.title)
     .setDescription(DocumentApi.desc)
     .setVersion(DocumentApi.version)

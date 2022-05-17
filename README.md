@@ -32,7 +32,9 @@ Con el fin de dar solución a la problematica planteada en el challenge se reali
 ## Configuración de entorno
 
 Con el proposito de facilitar la ejecución de dicha API, se realizó un `Docker Compose` que permitirá de forma rápida crear todos los recursos necesario para su uso.
+
 ### Ejecución de docker-compose
+
 ```bash
 #build compose
 $ docker-compose build
@@ -42,14 +44,18 @@ $ docker-compose up
 ```
 
 ### Accesos WEB para la prueba
+
 Una vez haya preparado todo el entorno de desarrollo, utilizando el `Docker Compose` anterior, puede hacer uso de los recurso web fueron configurados con el propisito de facilitar las prueba.
 
 #### PG Admin
+
 > Si desea acceder al [PG Admin](http://localhost:8081/login?next=%2F) para visualizar los datos de la base de datos usada durante el ejercicio puede acceder al servicio local proporcionado, usando los datos de prueba para el inicio de sesión que se brindan a continuación.
+
 ```
   USER: admin@admin.com
   PASS: admin
 ```
+
 > Una vez iniciada la sesión puede verificar si existe una conexión a la base de datos llamada `postgres`, de no existir, puede crear la nueva conexión usando los datos de prueba que se brindan a continuación.
 
 ```
@@ -61,12 +67,13 @@ PASS: admin
 ```
 
 #### Swagger Doc
-> Si desea utilizar la interfáz web de swagger para probar de forma mas sencilla la api presentada, puede utilizar [Swagger Vank Api](http://localhost:3001/doc/) en el que encontrará la documentación para el uso de cada endpoint, así como las referencias y ejemplos para los diferentes casos de uso.
 
+> Si desea utilizar la interfáz web de swagger para probar de forma mas sencilla la api presentada, puede utilizar [Swagger Vank Api](http://localhost:3001/doc/) en el que encontrará la documentación para el uso de cada endpoint, así como las referencias y ejemplos para los diferentes casos de uso.
 
 ## Uso interno de la api
 
 Si desea utilizar esta API sin el `Docker Compose` facilitado entre los archivos del repositorio, recuerde que puede correr la api utilizando los comandos de propios de node/nestjs. Sin embargo no contará con la conexión requerida hacia la base de datos utilizada para el ejercicio practico.
+
 ### Instalar dependencias de node
 
 ```bash
@@ -99,6 +106,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+### Documentación
 
-
-
+> [Auth](https://www.youtube.com/watch?v=2P-Bxrtser4): Hacer modulo de autenticación con JWT y passport-jwt

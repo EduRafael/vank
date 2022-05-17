@@ -9,10 +9,10 @@ import {
   Get,
   Post,
   Logger,
-  applyDecorators,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiTags, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 //service
 import { UserService } from '../services/user.service';
@@ -22,7 +22,7 @@ import { Messages } from './../../../common/enums/message.enum';
 import { ApiInfo } from './../../../common/decorators/api-info.decorator';
 import { DocControllers } from './../../../common/swagger/constants/user.constant';
 import { UserCreateDto, UserUpdateDto } from '../dtos/user-input.dto';
-import { UserEntity } from '../entities/user.entity';
+import { JwtGuard } from 'common/auth/strategies/auth-jwt.guard';
 
 @Controller('users')
 @ApiTags('Users')
@@ -41,8 +41,10 @@ export class UserController {
     res.status(HttpStatus.CREATED).json(result);
   }
 
+  @UseGuards(JwtGuard)
   @Patch('/:userId')
   @ApiInfo(DocControllers.updated)
+  @ApiBearerAuth()
   @UseFilters(HttpErrorException)
   async update(
     @Param('userId') userId,

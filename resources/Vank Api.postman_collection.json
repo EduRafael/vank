@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "9cf64d34-8c0a-48a0-b022-a6e870f5e6de",
+		"name": "Vank Api",
+		"description": "Esta colección es una muestra de la versión MVP de la api VANK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Invoices",
+			"item": [
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/invoices/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"invoices",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear invoice",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImJhbmsiOiJbMSwyXSIsImVtYWlsIjoiZXNhQGdtYWlsLmNvbSIsImN1cnJlbmN5IjoiQ0xQIiwiaWF0IjoxNjUyODc0NzU5LCJleHAiOjE2NTI4ODE5NTl9.ACbRTl92SNAdjWUCrd05jixCOEEDVxjwKwT26wDCKaQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"invoiceId\": 0,\n  \"vendorId\": 0,\n  \"invoiceNumber\": \"string\",\n  \"invoiceDate\": \"string\",\n  \"invoiceTotal\": 1,\n  \"paymentTotal\": 1,\n  \"creditTotal\": 1,\n  \"bankId\": 0,\n  \"invoiceDueDate\": \"string\",\n  \"paymentDate\": \"string\",\n  \"currency\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/invoices/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"invoices",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busqueda de Invoices por filtros",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImJhbmsiOiJbMSwyXSIsImVtYWlsIjoiZXNhQGdtYWlsLmNvbSIsImN1cnJlbmN5IjoiQ0xQIiwiaWF0IjoxNjUyODc0NzU5LCJleHAiOjE2NTI4ODE5NTl9.ACbRTl92SNAdjWUCrd05jixCOEEDVxjwKwT26wDCKaQ"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/invoices?vendorId=122&invoiceDate=24-APR-14&currency=EUR",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "vendorId",
+									"value": "122",
+									"description": "Parámetro opcional, para el filtro, debe ser numerico"
+								},
+								{
+									"key": "invoiceDate",
+									"value": "24-APR-14",
+									"description": "Parámetro opcional, para el filtro, debe cumplir con el formato DD-MMM-YY"
+								},
+								{
+									"key": "currency",
+									"value": "EUR",
+									"description": "Parámetro opcional, para conversión de monedas, puede usar [USD, EUR, CLP]"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"companyName\": \"Gavas.ar\",\n    \"email\":\"gisvelvitora@gmail.com\",\n    \"password\":\"123456\",\n    \"internalCode\":\"GV0307\",\n    \"taxId\":\"Q1342\",\n    \"currency\":\"eur\",\n    \"monthlyRequestFee\":10000\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar taxId, currency",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "api-token",
+								"value": "12345",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImJhbmsiOiJbMSwyXSIsImVtYWlsIjoiZXNhQGdtYWlsLmNvbSIsImN1cnJlbmN5IjoiQ0xQIiwiaWF0IjoxNjUyODc0NzU5LCJleHAiOjE2NTI4ODE5NTl9.ACbRTl92SNAdjWUCrd05jixCOEEDVxjwKwT26wDCKaQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"taxId\":\"Q1343\",\n    \"currency\": \"usd\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Examples",
+			"item": [
+				{
+					"name": "Converter Currency",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "4eb3f5da2b79a043787e",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://free.currconv.com/api/v7/convert?q=CLP_PHP&compact=ultra&apiKey=4eb3f5da2b79a043787e",
+							"protocol": "https",
+							"host": [
+								"free",
+								"currconv",
+								"com"
+							],
+							"path": [
+								"api",
+								"v7",
+								"convert"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "CLP_PHP"
+								},
+								{
+									"key": "compact",
+									"value": "ultra"
+								},
+								{
+									"key": "apiKey",
+									"value": "4eb3f5da2b79a043787e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"admin@admin.com\",\n    \"password\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

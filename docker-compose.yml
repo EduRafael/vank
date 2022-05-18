@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+  # redis_db:
+  #       image: "redis:alpine"
+  #       ports:
+  #           - "6380:6379"
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5436:5432"
+    environment:
+      DATABASE_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    environment:
+      REMOTE_CSV: "https://gist.github.com/rogelio-meza-t/f70a484ec20b8ea43c67f95a58597c29/raw"
+      NODE_ENV: development
+      API_KEY: "a40bb170b60da4e975cc"
+      ENVIRONMENT: "develop"
+      NODE_PORT: 3000
+      REQ_LIMIT: "1mb"
+      DB_HOST: 'postgres'
+      DB_PORT: 5432
+      DB_USER: 'postgres'
+      DB_PWD : 'admin'
+      DB_NAME: 'postgres'
+      DB_TYPE: 'postgres'
+      SECRET_KEY: 'phr453'
+      EXPIRED_TOKEN: '2h'
+      URL_CONVERTER: 'https://free.currconv.com/api/v7/convert'
+    ports:
+      - "3000:3000"

@@ -8,7 +8,7 @@ export const checkRate = async (currency): Promise<number> => {
     const baseUrl = config()[Keys.URL_CURR];
     const apiKey = config()[Keys.API_KEY];
 
-    let url = `${baseUrl}?q=${coin}&compact=ultra&apiKey=${apiKey}`;
+    const url = `${baseUrl}?q=${coin}&compact=ultra&apiKey=${apiKey}`;
 
     const result = await axios.get(url);
 

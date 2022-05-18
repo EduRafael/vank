@@ -5,6 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { json } from 'body-parser';
 import { swaggerConfig } from './common/swagger/swager.service';
 import { Keys } from './common/enums/keys.enum';
+import * as moment from 'moment-timezone';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,7 +29,9 @@ async function bootstrap() {
   await app.listen(PORT);
 
   Logger.log({
-    message: `Server ᕕ(ಠ‿ಠ)ᕗ on environment: ${env} and port: ${PORT}`,
+    message: `Server ᕕ(ಠ‿ಠ)ᕗ on environment: ${env} and port: ${PORT}, time: ${moment(
+      new Date(),
+    ).hour()}`,
   });
 }
 

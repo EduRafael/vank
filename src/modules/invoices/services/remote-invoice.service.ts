@@ -20,7 +20,7 @@ export class RemoteInvoice {
     private readonly invoiceService: InvoiceService,
   ) {}
 
-  @Cron('0 0 14 * * *')
+  @Cron('0 0 17 * * *')
   async orchestrator() {
     await this.getRemoteInvoices().subscribe(async (res) => {
       if (!res || !res.data) {

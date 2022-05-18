@@ -2,6 +2,7 @@ import { Test, TestingModuleBuilder } from '@nestjs/testing';
 import { UserCreateDto, UserUpdateDto } from '../dtos/user-input.dto';
 import { UserEntity } from '../entities/user.entity';
 import { UserService } from './user.service';
+
 describe('User service', () => {
   let userEntity: UserEntity;
   let userService: UserService;

@@ -1,6 +1,6 @@
 import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
 import * as moment from 'moment-timezone';
-import { SupportedCurrencies } from 'common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 
 export const remoteMapper = (fields): InvoiceCreateDto => {
   const invoices = new InvoiceCreateDto();

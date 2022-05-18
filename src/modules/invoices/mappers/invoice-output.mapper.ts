@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
-import { SupportedCurrencies } from 'common/enums/currencies.enum';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 import { InvoiceEntity } from '../entities/invoices.entity';
-import { Coins, Converter } from '../models/invoices.model';
+import { Coins } from '../models/invoices.model';
 
 export class InvoiceOutput {
   private readonly logger = new Logger(InvoiceOutput.name);

@@ -1,21 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Messages } from './../../../common/enums/message.enum';
-import AlreadyExistsError from './../../../common/errors/already-exists.error';
 import { Connection, Repository } from 'typeorm';
+
 import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
 import { InvoiceEntity } from '../entities/invoices.entity';
 import { mapperCreate } from '../mappers/invoice-input.mapper';
-import { AuthService } from 'common/auth/auth.service';
-import { verify } from 'crypto';
-import { Converter, InvoiceFilters } from '../models/invoices.model';
+import { InvoiceFilters } from '../models/invoices.model';
 import { InvoiceOutput } from '../mappers/invoice-output.mapper';
-import { ConfigService } from '@nestjs/config';
-import { Keys } from 'common/enums/keys.enum';
-import { HttpService } from '@nestjs/axios';
-import axios from 'axios';
-import { checkRate } from 'common/utils/convert-currency.utils';
-import { SupportedCurrencies } from 'common/enums/currencies.enum';
+
+//Commons
+import { Messages } from './../../../common/enums/message.enum';
+import AlreadyExistsError from './../../../common/errors/already-exists.error';
+import { AuthService } from './../../../common/auth/auth.service';
+import { checkRate } from './../../../common/utils/convert-currency.utils';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
 
 @Injectable()
 export class InvoiceService {
@@ -33,7 +31,9 @@ export class InvoiceService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    if (await this.validateInvoice({ invoiceId: body.invoiceId })) {
+    const exist = await this.findByParams({ invoiceId: body.invoiceId });
+
+    if (exist) {
       throw new AlreadyExistsError('InvoiceID', body.invoiceId);
     }
 
@@ -86,14 +86,19 @@ export class InvoiceService {
 
       return invoiceOutput.mapper(converter);
     } catch (error) {
-      console.log(error.message);
+      this.logger.error(`An ocurred error, detail: ${error.message}`);
       throw error;
     }
   }
 
-  private async validateInvoice(params): Promise<boolean> {
+  async findByParams(params): Promise<InvoiceEntity> {
     const invoice = await this.repository.findOne(params);
 
-    return (invoice && true) || false;
+    if (!invoice) {
+      this.logger.log(Messages.findNotFound + 'Invoice');
+      return null;
+    }
+
+    return invoice;
   }
 }

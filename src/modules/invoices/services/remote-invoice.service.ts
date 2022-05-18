@@ -1,13 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
+import { Cron } from '@nestjs/schedule';
+
 import axios, { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
+
 import { Keys } from './../../../common/enums/keys.enum';
-import { HttpService } from '@nestjs/axios';
-import { InjectRepository } from '@nestjs/typeorm';
-import { InvoiceEntity } from '../entities/invoices.entity';
-import { Repository } from 'typeorm';
-import { Cron } from '@nestjs/schedule';
 import { remoteMapper } from '../mappers/invoice-remote.mapper';
 import { InvoiceService } from './invoice.service';
 import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
@@ -19,16 +18,15 @@ export class RemoteInvoice {
     private readonly config: ConfigService,
     private readonly httpService: HttpService,
     private readonly invoiceService: InvoiceService,
-    @InjectRepository(InvoiceEntity)
-    private readonly invoiceRepository: Repository<InvoiceEntity>,
   ) {}
 
-  @Cron('0 0 12 * * *')
+  @Cron('0 0 14 * * *')
   async orchestrator() {
     await this.getRemoteInvoices().subscribe(async (res) => {
       if (!res || !res.data) {
         return;
       }
+      this.logger.log('Collecting information from the remote file');
 
       const data = res.data.split(/\n/);
       data.shift();
@@ -38,29 +36,31 @@ export class RemoteInvoice {
         if (!invoiceRow) continue;
 
         const invoice = remoteMapper(invoiceRow);
-        await this.registerInvoice(invoice);
+        await this.registerRemoteInvoice(invoice);
       }
     });
   }
 
   private getRemoteInvoices(): Observable<AxiosResponse<string>> {
-    const url = this.config.get(Keys.REMOTE_CSV);
-    const result = this.httpService.get(url);
-    return result;
+    try {
+      const url = this.config.get(Keys.REMOTE_CSV);
+      const result = this.httpService.get(url);
+      return result;
+    } catch (error) {
+      this.logger.error(`An ocurred error, detail: ${error.message}`);
+      return null;
+    }
   }
 
-  private async registerInvoice(invoices: InvoiceCreateDto): Promise<string> {
-    const exist = await this.invoiceRepository.findOne({
-      where: { invoiceId: invoices.invoiceId },
+  private async registerRemoteInvoice(
+    invoices: InvoiceCreateDto,
+  ): Promise<void> {
+    const exist = await this.invoiceService.findByParams({
+      invoiceId: invoices.invoiceId,
     });
 
-    if (exist) {
-      this.logger.log('Registro Existente');
-      return;
-    }
+    if (exist) return;
 
     await this.invoiceService.create(invoices);
-
-    return 'Success';
   }
 }

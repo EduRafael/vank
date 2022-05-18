@@ -24,10 +24,9 @@
 
 ## Descripción
 
-[Nest](https://github.com/nestjs/nest) Framework usado para este challenge.
-[Challenge](https://xepelin.notion.site/Test-Backend-P-blico-f15bf9ee3bde4ef6964e181790dddd39) Challenge propuesto por xepelin notion.
+Se utilizó el framework [Nest](https://github.com/nestjs/nest), para dar solución al desarrollo de [Challenge](https://xepelin.notion.site/Test-Backend-P-blico-f15bf9ee3bde4ef6964e181790dddd39) propuesto por xepelin notion.
 
-Con el fin de dar solución a la problematica planteada en el challenge se realiza la siguiente api. continuar...
+A nivel general, con esta api podrá crear nuevos usuarios, una vez tenga un usuario registrado, tendrá que realizar el login para generar un token que le permitirá realizar el resto de acciones dispuestas, como modificar algunos parámetros del usuario, crear nuevos registros de invoices y consultar los mismos a través de diferentes filtros, asi como seleccionar el tipo de moneda que desa utilizar basado en los datos brindados por [CurrencyConverterApi](https://free.currencyconverterapi.com/free-api-key).
 
 ## Configuración de entorno
 
@@ -106,6 +105,12 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-### Documentación
+### Documentación y Recursos
 
-> [Auth](https://www.youtube.com/watch?v=2P-Bxrtser4): Hacer modulo de autenticación con JWT y passport-jwt
+> Challenge propuesto [Challenge](https://xepelin.notion.site/Test-Backend-P-blico-f15bf9ee3bde4ef6964e181790dddd39)
+
+> Conversor de monedas [CurrencyConverterApi](https://free.currencyconverterapi.com/free-api-key).
+
+> Como hacer modulo de autenticación con JWT y passport-jwt [AuthNest](https://www.youtube.com/watch?v=2P-Bxrtser4)
+
+> Como hacer un cron job usando nestjs [CronJobsNest](https://www.youtube.com/watch?v=FX5JySeL1WY)

@@ -15,18 +15,18 @@ import {
 import { Response, Request } from 'express';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { Messages } from './../../../common/enums/message.enum';
-
 //service
 import { InvoiceService } from '../services/invoice.service';
-import { ApiInfo } from './../../../common/decorators/api-info.decorator';
-import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
 import { InvoiceCreateDto } from '../dtos/invoice-input.dto';
-
-import { DocControllers } from './../../../common/swagger/constants/invoice.constant';
-import { JwtGuard } from 'common/auth/strategies/auth-jwt.guard';
-import { SupportedCurrencies } from 'common/enums/currencies.enum';
 import { InvoiceFilters } from '../models/invoices.model';
+
+//common
+import { Messages } from './../../../common/enums/message.enum';
+import { ApiInfo } from './../../../common/decorators/api-info.decorator';
+import { JwtGuard } from './../../../common/auth/strategies/auth-jwt.guard';
+import { SupportedCurrencies } from './../../../common/enums/currencies.enum';
+import { HttpErrorException } from './../../../common/exceptions/http.exceptions';
+import { DocControllers } from './../../../common/swagger/constants/invoice.constant';
 
 @Controller('invoices')
 @ApiTags('Invoices')
@@ -47,6 +47,7 @@ export class InvoiceController {
       enum: SupportedCurrencies,
     }),
   )
+  @ApiInfo(DocControllers.find)
   @UseFilters(HttpErrorException)
   async find(
     @Req() req: Request,

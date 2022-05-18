@@ -1,8 +1,8 @@
 {
   "name": "vankv1",
   "version": "0.0.2",
-  "description": "",
-  "author": "",
+  "description": "Api para gestión de invoices y usuarios",
+  "author": "Eduardo Alvarado",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
